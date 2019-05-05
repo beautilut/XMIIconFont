@@ -3,6 +3,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask import redirect
 from flask import url_for
 from flask import g
@@ -16,9 +17,11 @@ import leancloud
 
 from views.todos import todos_view
 from views.users import users_view
+from views.Indexs import index_views
 
 
 app = Flask(__name__)
+CORS(app)
 app.config.update(dict(PREFERRED_URL_SCHEME='https'))
 try:
     app.secret_key = bytes(os.environ.get('SECRET_KEY'), 'utf-8')
@@ -57,7 +60,7 @@ app.wsgi_app = leancloud.engine.CookieSessionMiddleware(app.wsgi_app, app.secret
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 app.register_blueprint(users_view, url_prefix='/users')
-
+app.register_blueprint(index_views, url_prefix='/indexs')
 
 @app.before_request
 def before_request():
@@ -66,7 +69,8 @@ def before_request():
 
 @app.route('/')
 def index():
-    return redirect(url_for('todos.show'))
+    return redirect(url_for('indexs.show'))
+    # return redirect(url_for('todos.show'))
 
 
 @app.route('/help')
