@@ -18,6 +18,7 @@ import leancloud
 from views.todos import todos_view
 from views.users import users_view
 from views.Indexs import index_views
+from views.Api import apiIndex_views
 
 
 app = Flask(__name__)
@@ -61,6 +62,7 @@ app.wsgi_app = leancloud.engine.CookieSessionMiddleware(app.wsgi_app, app.secret
 app.register_blueprint(todos_view, url_prefix='/todos')
 app.register_blueprint(users_view, url_prefix='/users')
 app.register_blueprint(index_views, url_prefix='/indexs')
+app.register_blueprint(apiIndex_views , url_prefix='/api')
 
 @app.before_request
 def before_request():
